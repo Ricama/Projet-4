@@ -26,7 +26,7 @@ public class ParkingService {
         this.parkingSpotDAO = parkingSpotDAO;
         this.ticketDAO = ticketDAO;
     }
-// Entrée parking d'un véhicule avec réation d'un ticket
+
     public void processIncomingVehicle() {
         try{
             ParkingSpot parkingSpot = getNextParkingNumberIfAvailable();
@@ -53,12 +53,12 @@ public class ParkingService {
             logger.error("Unable to process incoming vehicle",e);
         }
     }
-     // récupération numéro voiture
+
     private String getVehichleRegNumber() throws Exception {
         System.out.println("Please type the vehicle registration number and press enter key");
         return inputReaderUtil.readVehicleRegistrationNumber();
     }
-     // mise a jour des places disponnibles
+
     public ParkingSpot getNextParkingNumberIfAvailable(){
         int parkingNumber=0;
         ParkingSpot parkingSpot = null;
@@ -77,7 +77,7 @@ public class ParkingService {
         }
         return parkingSpot;
     }
-        //récupération type de véhicule
+
     private ParkingType getVehichleType(){
         System.out.println("Please select vehicle type from menu");
         System.out.println("1 CAR");
@@ -96,7 +96,7 @@ public class ParkingService {
             }
         }
     }
- // Sortie véhicule calcul plus affichage prix a payer
+
     public void processExitingVehicle() {
         try{
             String vehicleRegNumber = getVehichleRegNumber();

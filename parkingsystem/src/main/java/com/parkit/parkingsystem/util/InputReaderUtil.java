@@ -9,7 +9,7 @@ public class InputReaderUtil {
 
     private static Scanner scan = new Scanner(System.in);
     private static final Logger logger = LogManager.getLogger("InputReaderUtil");
-// récupére le premiere input du scan en integer
+
     public int readSelection() {
         try {
             int input = Integer.parseInt(scan.nextLine());
@@ -20,7 +20,7 @@ public class InputReaderUtil {
             return -1;
         }
     }
-   // récupere le deuxieme input du scnan et vérifie qu'il est bien entrer
+
     public String readVehicleRegistrationNumber() throws Exception {
         try {
             String vehicleRegNumber= scan.nextLine();

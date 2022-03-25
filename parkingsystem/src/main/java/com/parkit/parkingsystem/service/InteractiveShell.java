@@ -7,7 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class InteractiveShell {
-// root de l'application menu
+
     private static final Logger logger = LogManager.getLogger("InteractiveShell");
 
     public static void loadInterface(){
