@@ -17,6 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Date;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
@@ -60,9 +61,13 @@ public class ParkingServiceTest {
         verify(parkingSpotDAO, Mockito.times(1)).updateParking(any(ParkingSpot.class));
     }
     @Test
-    public void processIncomingVehicleTest(){
+    public void getNextParkingNumberIfAvailableTest(){
        ParkingSpot result = parkingService.getNextParkingNumberIfAvailable();
         assertNotNull(result);
+    }
+    @Test
+    public void processIncomingVehicleTest(){
+        parkingService.processIncomingVehicle();
     }
 
 
