@@ -29,6 +29,7 @@ class TicketDAOTest {
     private static void after(){
 
     }
+
     @Test
     public void saveTicketTest(){
         boolean isAvailable = true;
@@ -43,12 +44,14 @@ class TicketDAOTest {
         boolean result = ticketDAO.saveTicket(test);
         assertFalse(result);
     }
+
     @Test
     public void getTicketTest(){
         Ticket result = ticketDAO.getTicket(vehicleRegNumber);
 
         assertNotNull(result);
     }
+
     @Test
    public void updateTicketTest() throws InterruptedException {
         Thread.sleep(500);

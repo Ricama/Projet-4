@@ -1,5 +1,7 @@
 package com.parkit.parkingsystem.service;
 
+import com.parkit.parkingsystem.config.DataBaseConfig;
+import com.parkit.parkingsystem.constants.DBConstants;
 import com.parkit.parkingsystem.constants.ParkingType;
 import com.parkit.parkingsystem.dao.ParkingSpotDAO;
 import com.parkit.parkingsystem.dao.TicketDAO;
@@ -9,12 +11,16 @@ import com.parkit.parkingsystem.util.InputReaderUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 
 public class ParkingService {
 
     private static final Logger logger = LogManager.getLogger("ParkingService");
-
+    public DataBaseConfig dataBaseConfig = new DataBaseConfig();
     private static FareCalculatorService fareCalculatorService = new FareCalculatorService();
 
     private InputReaderUtil inputReaderUtil;
@@ -26,12 +32,37 @@ public class ParkingService {
         this.parkingSpotDAO = parkingSpotDAO;
         this.ticketDAO = ticketDAO;
     }
+    public int getDiscount (String vehicleRegNumber){
+        Connection con = null;
+        int result= 0;
+        try {
+
+            con = dataBaseConfig.getConnection();
+            PreparedStatement ps = con.prepareStatement(DBConstants.GET_DISCOUNT);
+            ps.setString(1, vehicleRegNumber);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                result = rs.getInt(1);
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
 // Entrée parking d'un véhicule avec réation d'un ticket
     public void processIncomingVehicle() {
         try{
             ParkingSpot parkingSpot = getNextParkingNumberIfAvailable();
             if(parkingSpot !=null && parkingSpot.getId() > 0){
                 String vehicleRegNumber = getVehichleRegNumber();
+                if(getDiscount(vehicleRegNumber) > 0)
+                {
+                    System.out.println("Welcome back! As a recurring user of our parking lot, you'll benefit from a 5% discount");
+                }
                 parkingSpot.setAvailable(false);
                 parkingSpotDAO.updateParking(parkingSpot);//allot this parking space and mark it's availability as false
 
@@ -72,7 +103,7 @@ public class ParkingService {
             }
         }catch(IllegalArgumentException ie){
             logger.error("Error parsing user input for type of vehicle", ie);
-        }catch(Exception e){
+        }catch(Exception e){ //erreur a régler
             logger.error("Error fetching next available parking slot", e);
         }
         return parkingSpot;
@@ -99,11 +130,13 @@ public class ParkingService {
  // Sortie véhicule calcul plus affichage prix a payer
     public void processExitingVehicle() {
         try{
+            Connection con = null;
+            int result=-1;
             String vehicleRegNumber = getVehichleRegNumber();
             Ticket ticket = ticketDAO.getTicket(vehicleRegNumber);
             Date outTime = new Date();
             ticket.setOutTime(outTime);
-            fareCalculatorService.calculateFare(ticket);
+            fareCalculatorService.calculateFare(ticket,getDiscount(vehicleRegNumber));
             if(ticketDAO.updateTicket(ticket)) {
                 ParkingSpot parkingSpot = ticket.getParkingSpot();
                 parkingSpot.setAvailable(true);
