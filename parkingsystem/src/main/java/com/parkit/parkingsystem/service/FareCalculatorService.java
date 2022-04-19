@@ -1,7 +1,6 @@
 package com.parkit.parkingsystem.service;
 
 import com.parkit.parkingsystem.constants.Fare;
-import com.parkit.parkingsystem.dao.TicketDAO;
 import com.parkit.parkingsystem.model.Ticket;
 
 public class FareCalculatorService {
@@ -17,12 +16,10 @@ public class FareCalculatorService {
         double freeTime = (outHour - inHour) / 3.6e+6 ;
         double duration = freeTime - 0.5;
 
-        if (discount > 1)
-        {
+        if (discount > 1){
             duration = duration / 1.05;
         }
-        if (duration < 0 )
-        {
+        if (duration < 0 ){
             duration = 0;
         }
 

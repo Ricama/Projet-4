@@ -36,7 +36,6 @@ public class ParkingService {
         Connection con = null;
         int result= 0;
         try {
-
             con = dataBaseConfig.getConnection();
             PreparedStatement ps = con.prepareStatement(DBConstants.GET_DISCOUNT);
             ps.setString(1, vehicleRegNumber);
