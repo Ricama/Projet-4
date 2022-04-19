@@ -2,9 +2,6 @@ package com.parkit.parkingsystem.dao;
 import com.parkit.parkingsystem.constants.ParkingType;
 import com.parkit.parkingsystem.model.ParkingSpot;
 import org.junit.jupiter.api.Test;
-
-
-
 import static org.junit.jupiter.api.Assertions.*;
 
 

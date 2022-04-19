@@ -5,12 +5,12 @@ import com.parkit.parkingsystem.dao.TicketDAO;
 import com.parkit.parkingsystem.model.Ticket;
 
 public class FareCalculatorService {
+    //calcule le prix selon le temps de stationnement récupére le ticket et le nombre de venu de ce client en paramétre
     public void calculateFare(Ticket ticket, int discount){
 
         if( (ticket.getOutTime() == null) || (ticket.getOutTime().before(ticket.getInTime())) ){
             throw new IllegalArgumentException("Out time provided is incorrect:"+ticket.getOutTime().toString());
         }
-//Résolue
 
         int inHour = (int) ticket.getInTime().getTime();
         int outHour = (int) ticket.getOutTime().getTime();

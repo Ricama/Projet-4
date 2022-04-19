@@ -9,7 +9,7 @@ import org.apache.logging.log4j.Logger;
 public class InteractiveShell {
 // root de l'application menu
     private static final Logger logger = LogManager.getLogger("InteractiveShell");
-
+// navigation du logiciel
     public static void loadInterface(){
         logger.info("App initialized!!!");
         System.out.println("Welcome to Parking System!");
