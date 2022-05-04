@@ -5,6 +5,12 @@ import com.parkit.parkingsystem.model.Ticket;
 
 public class FareCalculatorService {
     //calcule le prix selon le temps de stationnement récupére le ticket et le nombre de venu de ce client en paramétre
+
+    /**
+     * calculates the price according to the parking time
+     * @param ticket Vehicle entry ticket
+     * @param discount number of entries for this vehicle in the car park
+     */
     public void calculateFare(Ticket ticket, int discount){
 
         if( (ticket.getOutTime() == null) || (ticket.getOutTime().before(ticket.getInTime())) ){

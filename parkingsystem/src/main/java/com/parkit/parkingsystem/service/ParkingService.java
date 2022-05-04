@@ -32,6 +32,12 @@ public class ParkingService {
         this.parkingSpotDAO = parkingSpotDAO;
         this.ticketDAO = ticketDAO;
     }
+
+    /**
+     * checks if the vehicleNumber is already registered in the database
+     * @param vehicleRegNumber
+     * @return int(result) parking lot entry number for this vehicleRegNumber
+     */
     public int getDiscount (String vehicleRegNumber){
         Connection con = null;
         int result= 0;
@@ -52,7 +58,9 @@ public class ParkingService {
         return result;
     }
 
-// Entrée parking d'un véhicule avec réation d'un ticket
+    /**
+     * car park entry and creation of a ticket
+     */
     public void processIncomingVehicle() {
         try{
             ParkingSpot parkingSpot = getNextParkingNumberIfAvailable();
@@ -83,12 +91,21 @@ public class ParkingService {
             logger.error("Unable to process incoming vehicle",e);
         }
     }
-     // récupération numéro voiture
+
+    /**
+     * retrieve car number
+     * @return String
+     * @throws Exception
+     */
     private String getVehichleRegNumber() throws Exception {
         System.out.println("Please type the vehicle registration number and press enter key");
         return inputReaderUtil.readVehicleRegistrationNumber();
     }
-     // mise a jour des places disponnibles
+
+    /**
+     * update available places
+     * @return parkingSpot
+     */
     public ParkingSpot getNextParkingNumberIfAvailable(){
         int parkingNumber=0;
         ParkingSpot parkingSpot = null;
@@ -107,7 +124,11 @@ public class ParkingService {
         }
         return parkingSpot;
     }
-        //récupération type de véhicule
+
+    /**
+     * vehicle type recovery
+     * @return ParkingType
+     */
     private ParkingType getVehichleType(){
         System.out.println("Please select vehicle type from menu");
         System.out.println("1 CAR");
@@ -126,7 +147,10 @@ public class ParkingService {
             }
         }
     }
- // Sortie véhicule calcul plus affichage prix a payer
+
+    /**
+     * vehicle exit, price calculation and display
+     */
     public void processExitingVehicle() {
         try{
             Connection con = null;

@@ -15,7 +15,12 @@ public class ParkingSpotDAO {
     private static final Logger logger = LogManager.getLogger("ParkingSpotDAO");
 
     public DataBaseConfig dataBaseConfig = new DataBaseConfig();
-// envoi la place libre selon le type de place
+
+    /**
+     * send the number of the free place according to the type
+     * @param parkingType Vehicle type
+     * @return int(result)
+     */
     public int getNextAvailableSlot(ParkingType parkingType){
         Connection con = null;
         int result=-1;
@@ -36,9 +41,13 @@ public class ParkingSpotDAO {
         }
         return result;
     }
-// update le status de la place
+
+    /**
+     * update the availability fo that parking slot
+     * @param parkingSpot seat number and type
+     * @return int(updateRowCount)
+     */
     public boolean updateParking(ParkingSpot parkingSpot){
-        //update the availability fo that parking slot
         Connection con = null;
         try {
             con = dataBaseConfig.getConnection();

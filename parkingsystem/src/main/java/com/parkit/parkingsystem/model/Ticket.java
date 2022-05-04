@@ -2,7 +2,7 @@ package com.parkit.parkingsystem.model;
 
 import java.util.Calendar;
 import java.util.Date;
-//Création object Ticket
+//Create object Ticket
 public class Ticket {
     private int id;
     private ParkingSpot parkingSpot;

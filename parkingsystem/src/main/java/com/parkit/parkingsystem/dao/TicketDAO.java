@@ -18,7 +18,12 @@ public class TicketDAO {
     private static final Logger logger = LogManager.getLogger("TicketDAO");
 
     public DataBaseConfig dataBaseConfig = new DataBaseConfig();
-// sauvegarde le ticket dans la base de données
+
+    /**
+     * save the ticket in database
+     * @param ticket ticket register
+     * @return false
+     */
     public boolean saveTicket(Ticket ticket){
         Connection con = null;
         try {
@@ -39,7 +44,12 @@ public class TicketDAO {
             return false;
         }
     }
-// envoi le ticket de la base de données
+
+    /**
+     * Retrieval of the ticket stored in the database
+     * @param vehicleRegNumber car identification number
+     * @return Ticket(ticket)
+     */
     public Ticket getTicket(String vehicleRegNumber) {
         Connection con = null;
         Ticket ticket = null;
@@ -68,7 +78,12 @@ public class TicketDAO {
             return ticket;
         }
     }
-// met a jour le ticket
+
+    /**
+     * update the ticket
+     * @param ticket ticket register
+     * @return false
+     */
     public boolean updateTicket(Ticket ticket) {
         Connection con = null;
         try {
