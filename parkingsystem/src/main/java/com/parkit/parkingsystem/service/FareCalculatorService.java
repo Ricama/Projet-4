@@ -4,7 +4,6 @@ import com.parkit.parkingsystem.constants.Fare;
 import com.parkit.parkingsystem.model.Ticket;
 
 public class FareCalculatorService {
-    //calcule le prix selon le temps de stationnement récupére le ticket et le nombre de venu de ce client en paramétre
 
     /**
      * calculates the price according to the parking time
