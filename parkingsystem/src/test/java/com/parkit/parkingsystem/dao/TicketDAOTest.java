@@ -34,8 +34,6 @@ class TicketDAOTest {
     public void saveTicketTest(){
         boolean isAvailable = true;
         ParkingSpot testp = new ParkingSpot(1, ParkingType.CAR,isAvailable);
-
-
         test.setParkingSpot(testp);
         test.setVehicleRegNumber(vehicleRegNumber);
         test.setPrice(0);
