@@ -18,7 +18,7 @@ public class FareCalculatorService {
 
         int inHour = (int) ticket.getInTime().getTime();
         int outHour = (int) ticket.getOutTime().getTime();
-        double freeTime = (outHour - inHour) / 3.6e+6 ;
+        double freeTime = (outHour - inHour) / 3.6e+6 ; // 3.6e+6 conversion millisecond en heures
         double duration = freeTime - 0.5;
 
         if (discount > 1){
