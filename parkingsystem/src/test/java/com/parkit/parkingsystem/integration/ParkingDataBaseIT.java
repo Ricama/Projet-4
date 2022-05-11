@@ -53,28 +53,36 @@ public class ParkingDataBaseIT {
 
     @Test
     public void testParkingACar(){
-        Ticket ticket = null;
-        int parkingSpot = 0;
+        //Given
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
-        parkingService.processIncomingVehicle();
-        ticket = ticketDAO.getTicket("ABCDEF");
-        parkingSpot = parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR);
 
-        assertNotNull(ticket);
-        assertEquals(2,parkingSpot);
+        //when
+        parkingService.processIncomingVehicle();
+
+        //then
+        final Ticket ticket = ticketDAO.getTicket("ABCDEF");
+        final int parkingSpot = parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR);
+
+        assertAll(
+                ()  -> assertNotNull(ticket),
+                ()  -> assertEquals("ABCDEF", ticket.getVehicleRegNumber()),
+                ()  -> assertEquals(2,parkingSpot)
+        );
+
     }
 
     @Test
     public void testParkingLotExit() throws InterruptedException {
-        Ticket ticket = null;
         testParkingACar();
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         Thread.sleep(500);
         parkingService.processExitingVehicle();
-        ticket = ticketDAO.getTicket("ABCDEF");
-        assertNotNull(ticket.getOutTime());
-        assertEquals(0,ticket.getPrice());
-
+        final Ticket ticket = ticketDAO.getTicket("ABCDEF");
+        assertAll(
+                () -> assertNotNull(ticket.getOutTime(), "OutTime"),
+                () -> assertEquals("ABCDEF", ticket.getVehicleRegNumber(),"vehicleNumber"),
+                () -> assertEquals(0,ticket.getPrice(), "price")
+        );
     }
 
-}
+ }
