@@ -33,6 +33,8 @@ public class ParkingService {
         this.ticketDAO = ticketDAO;
     }
 
+
+
     /**
      * checks if the vehicleNumber is already registered in the database
      * @param vehicleRegNumber
