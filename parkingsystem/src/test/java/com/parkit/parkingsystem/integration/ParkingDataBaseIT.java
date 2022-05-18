@@ -58,13 +58,9 @@ public class ParkingDataBaseIT {
     @Test
     public void testParkingACar(){
 
-        //Given
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
-
-        //when
         parkingService.processIncomingVehicle();
 
-        //then
         final Ticket ticket = ticketDAO.getTicket("ABCDEF");
         final int parkingSpot = parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR);
 
