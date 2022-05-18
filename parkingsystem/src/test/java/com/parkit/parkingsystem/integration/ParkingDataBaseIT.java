@@ -1,6 +1,5 @@
 package com.parkit.parkingsystem.integration;
 
-import com.parkit.parkingsystem.constants.DBConstants;
 import com.parkit.parkingsystem.constants.ParkingType;
 import com.parkit.parkingsystem.dao.ParkingSpotDAO;
 import com.parkit.parkingsystem.service.ParkingService;
@@ -17,10 +16,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -40,8 +36,8 @@ public class ParkingDataBaseIT {
     @BeforeAll
     private static void setUp(){
         parkingSpotDAO = new ParkingSpotDAO();
-        parkingSpotDAO.dataBaseConfig = dataBaseTestConfig;
         ticketDAO = new TicketDAO();
+        parkingSpotDAO.dataBaseConfig = dataBaseTestConfig;
         ticketDAO.dataBaseConfig = dataBaseTestConfig;
         dataBasePrepareService = new DataBasePrepareService();
         dataBasePrepareService.clearDataBaseEntries();
@@ -57,25 +53,6 @@ public class ParkingDataBaseIT {
     @AfterAll
     private static void tearDown(){
 
-    }
-    public int discount(String vehicleRegNumber){
-        Connection con = null;
-        int result= 0;
-        try {
-            con = dataBaseTestConfig.getConnection();
-            PreparedStatement ps = con.prepareStatement(DBConstants.GET_DISCOUNT);
-            ps.setString(1, vehicleRegNumber);
-            ResultSet rs = ps.executeQuery();
-            if(rs.next()){
-                result = rs.getInt(1);
-            }
-        }
-        catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return result;
     }
 
     @Test
@@ -116,18 +93,20 @@ public class ParkingDataBaseIT {
 
     @Test
     public void testDiscountPark() throws InterruptedException{
+        dataBasePrepareService.clearDataBaseEntries();
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+        parkingService.dataBaseConfig = dataBaseTestConfig;
 
         parkingService.processIncomingVehicle();
         Thread.sleep(500);
         parkingService.processExitingVehicle();
         final Ticket ticket0 = ticketDAO.getTicket("ABCDEF");
-        final int discount0 = discount("ABCDEF");
+        final int discount0 = parkingService.getDiscount("ABCDEF");
         parkingService.processIncomingVehicle();
         Thread.sleep(500);
         parkingService.processExitingVehicle();
         final Ticket ticket = ticketDAO.getTicket("ABCDEF");
-        final int discount = discount("ABCDEF");
+        final int discount = parkingService.getDiscount("ABCDEF");
         assertAll(
                 () -> assertEquals("ABCDEF", ticket0.getVehicleRegNumber(),"vehicleNumber"),
                 () -> assertEquals("ABCDEF", ticket.getVehicleRegNumber(),"vehicleNumber"),

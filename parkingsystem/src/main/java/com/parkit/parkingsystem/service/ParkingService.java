@@ -121,7 +121,7 @@ public class ParkingService {
             }
         }catch(IllegalArgumentException ie){
             logger.error("Error parsing user input for type of vehicle", ie);
-        }catch(Exception e){ //erreur a régler
+        }catch(Exception e){
             logger.error("Error fetching next available parking slot", e);
         }
         return parkingSpot;
